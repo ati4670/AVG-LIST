@@ -1,0 +1,46 @@
+// ==UserScript==
+// @name         Sukebei.nyaa.si 超連結字串高亮
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  在 Sukebei.nyaa.si 上，對超連結中符合字串檔的字串增加底色 #FFFFBB
+// @author       你的名字
+// @match        https://sukebei.nyaa.si/*
+// @grant        GM_xmlhttpRequest
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // 字串檔的 URL
+    const stringFileUrl = "https://raw.githubusercontent.com/ati4670/AVG-LIST/refs/heads/main/AVG-List.txt";
+
+    // 發送請求獲取字串檔內容
+    GM_xmlhttpRequest({
+        method: "GET",
+        url: stringFileUrl,
+        onload: function(response) {
+            // 將字串檔內容按行分割成數組
+            const targetStrings = response.responseText.split('\n').filter(line => line.trim() !== '');
+
+            // 遍歷所有字串
+            targetStrings.forEach(targetString => {
+                // 使用正則表達式全局匹配字串
+                const regex = new RegExp(targetString, 'gi');
+
+                // 獲取所有超連結元素
+                const links = document.querySelectorAll('a');
+
+                links.forEach(link => {
+                    // 檢查超連結的文字內容是否包含目標字串
+                    if (link.textContent.match(regex)) {
+                        // 替換超連結的文字內容，將目標字串增加底色
+                        link.innerHTML = link.innerHTML.replace(regex, `<span style="background-color: #FFFFBB;">${targetString}</span>`);
+                    }
+                });
+            });
+        },
+        onerror: function(error) {
+            console.error("無法加載字串檔:", error);
+        }
+    });
+})();
