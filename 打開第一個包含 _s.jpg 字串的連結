@@ -1,24 +1,24 @@
 // ==UserScript==
-// @name         Sukebei Auto Open First Link
+// @name         Auto Open First Image Link
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  等待3秒後自動在背景中打開第一個包含 _s.jpg 字串的連結
-// @author       ati4670
+// @version      1.0
+// @description  自動打開第一個超連結字串包含 _s.jpg 的圖片
+// @author       You
 // @match        https://sukebei.nyaa.si/view/*
-// @grant        none
+// @grant        GM_openInTab
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    // 等待3秒
-    setTimeout(() => {
-        // 獲取第一個包含 _s.jpg 的連結
-        const link = document.querySelector('a[href*="_s.jpg"]');
-
-        // 在背景中打開該連結
-        if (link) {
-            window.open(link.href, '_blank');
+    // 等待2秒
+    setTimeout(function() {
+        // 查找第一個包含 "_s.jpg" 的超連結
+        const links = document.querySelectorAll('a[href*="_s.jpg"]');
+        if (links.length > 0) {
+            const firstLink = links[0].href;
+            // 使用GM_openInTab打開鏈接
+            GM_openInTab(firstLink, true);
         }
-    }, 2000); // 2000 毫秒 = 2 秒
+    }, 500);
 })();
