@@ -1,0 +1,39 @@
+
+!V::
+BlockInput, MouseMove
+BlockInput On
+Sleep % 130
+Send, {RButton}
+Sleep % 130
+Send, {Down}
+Sleep % 20
+Send, {Enter}
+Sleep % 20
+Send, {Right}
+Sleep % 20
+Send, {Left}
+Sleep % 20
+SendInput % "{TEXT}" . "_"
+Send, ^v
+Send, {Home}
+
+Loop 11 {
+Sleep % 10
+Send, {Delete}
+}
+
+Sleep % 10
+Send, {Enter}
+
+Loop 17 {
+Sleep % 10
+Send, {Tab}
+}
+
+Send, {Space}
+Sleep % 10
+BlockInput, MouseMoveOff
+BlockInput Off
+Return
+
+
